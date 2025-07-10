@@ -1,0 +1,6 @@
+{
+  "editor.tabSize": 2,
+  "editor.indentSize": 2,
+  "files.eol": "\r\n", // LF line endings
+  "eslint.enable": true
+}
