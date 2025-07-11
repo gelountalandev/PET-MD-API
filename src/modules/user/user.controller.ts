@@ -4,6 +4,7 @@ import { PetOwnerDTO, PetOwnerRegisterDTO } from './dto/pet-owner-register.dto';
 import { VetDTO, VetRegisterDTO } from './dto/vet-register.dto';
 import { UserModel } from '../../models/user.model';
 import { AccessTokenDTO } from './dto/access-token.dto';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @Controller('users')
 export class UserController {
@@ -30,6 +31,7 @@ export class UserController {
     return this.userService.vetRegister(vetRegisterDTO.user, vetRegisterDTO.vet);
   }
 
+  @Throttle({ default: { ttl: 60000, limit: 5 } })
   @Post('login')
   login(@Body('username') username: string, @Body('password') password: string): Promise<{ access_token: AccessTokenDTO; user: UserModel }> {
     if (!username || !password)
@@ -37,6 +39,7 @@ export class UserController {
     return this.userService.login(username, password);
   }
 
+  // @SkipThrottle({short: true, default: true, long: true})
   @Get('vets')
   getVets(): Promise<VetDTO[]> {
     return this.userService.getVets()
