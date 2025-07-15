@@ -1,4 +1,4 @@
-import { Body, Controller, Post, ValidationPipe, Get, UnauthorizedException, InternalServerErrorException } from '@nestjs/common';
+import { Body, Controller, Post, ValidationPipe, Get, UnauthorizedException, InternalServerErrorException, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { PetOwnerDTO, PetOwnerRegisterDTO } from './dto/pet-owner-register.dto';
 import { VetDTO, VetRegisterDTO } from './dto/vet-register.dto';
@@ -37,6 +37,14 @@ export class UserController {
     if (!username || !password)
       throw new UnauthorizedException("Username and Password are Required")
     return this.userService.login(username, password);
+  }
+
+  @Post('logout')
+  async logout(@Req() req: Request): Promise<{ message: string }> {
+    const token = req.headers['authorization'];
+    const userId = req['user_id'];
+    await this.userService.logout(userId, token);
+    return { message: 'Logged out successfully' };
   }
 
   // @SkipThrottle({short: true, default: true, long: true})
