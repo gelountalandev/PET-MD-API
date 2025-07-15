@@ -9,8 +9,8 @@ import { VetDTO } from './dto/vet-register.dto';
 import { VetModel } from '../../models/vet.model';
 import { AccessTokenModel } from '../../models/access_token.model';
 import * as crypto from 'crypto';
-import { hashPassword } from '../utils/bcrypt';
-import { comparePassword } from '../utils/bcrypt';
+import { hashPassword } from '../../utils/bcrypt';
+import { comparePassword } from '../../utils/bcrypt';
 
 @Injectable()
 export class UserService {
@@ -142,4 +142,13 @@ export class UserService {
     const vet_check = await this.vetRepository.findOne({ where: { id: vet_id } });
     return !!vet_check;
   }
+
+  async validToken(token:string): Promise<AccessTokenModel | null> {
+    const checkToken = await this.accessTokenRepository.findOne({where: {token: token}});
+    return checkToken
+  }
+
+  async logout(user_id: number, token: string): Promise<void> {
+  await this.accessTokenRepository.delete({ user_id, token });
+}
 }
