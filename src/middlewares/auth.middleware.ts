@@ -6,7 +6,6 @@ import { UserService } from "../modules/user/user.service";
 export class AuthUser implements NestMiddleware {
 
   constructor(
-
     private userService: UserService
   ) { }
 
@@ -27,4 +26,5 @@ export class AuthUser implements NestMiddleware {
     req['user_id'] = validToken.user_id;
     next();
   }
+  
 }
