@@ -24,8 +24,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
           ],
           errorMessage: 'Too many requests, please try again later.',
           getTracker:(req: Record<string, any>, context:ExecutionContext) => {
-            console.log(req.headers['authorization']);
-            return req.headers['authorization']; // or any other identifier you want to use for tracking requests
+            return req.headers['authorization'];
           },
           generateKey: (
             context: ExecutionContext,
