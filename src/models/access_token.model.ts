@@ -12,6 +12,9 @@ export class AccessTokenModel {
   @Column({ type: 'timestamp', nullable: false })
   created_at: Date;
 
+  @Column({type: 'timestamp', nullable:false})
+  expires_at:Date;
+
   @ManyToOne(() => UserModel)
   @JoinColumn({ name: 'user_id' })
   user: UserModel;
