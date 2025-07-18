@@ -103,7 +103,8 @@ export class UserService {
 
   async createAccessToken(user_id: number): Promise<AccessTokenModel> {
     const newToken = crypto.randomBytes(16).toString('hex');
-    const accessToken = this.accessTokenRepository.create({ token: newToken, user_id: user_id, created_at: new Date() });
+    const expires_at = new Date(Date.now()+ 60 * 60 * 100)
+    const accessToken = this.accessTokenRepository.create({ token: newToken, user_id: user_id, created_at: new Date(), expires_at:expires_at });
     return await this.accessTokenRepository.save(accessToken);
   }
 
